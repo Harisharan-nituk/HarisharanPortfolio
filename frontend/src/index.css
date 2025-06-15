@@ -1,0 +1,102 @@
+/* frontend/src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Your custom styles and Tailwind @apply directives below */
+
+@layer base {
+  body {
+    @apply bg-white text-gray-800 transition-colors duration-300 ease-in-out;
+  }
+  html.dark body {
+    @apply bg-slate-900 text-gray-200;
+  }
+  html.dark a:not(.btn-primary):not(.btn-secondary):not(.nav-link-style) {
+    @apply text-indigo-400 hover:text-indigo-300;
+  }
+  a:not(.btn-primary):not(.btn-secondary):not(.nav-link-style) {
+    @apply text-indigo-600 hover:text-indigo-800;
+  }
+}
+
+@layer components {
+  /* Reusable input style with dark mode variants */
+  .input-style {
+    @apply mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm 
+           focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent sm:text-sm
+           dark:bg-slate-700 dark:border-slate-600 dark:placeholder-gray-400 dark:text-white 
+           dark:focus:ring-indigo-500 dark:focus:border-transparent;
+  }
+
+  /* Reusable file input style with dark mode variants */
+  .file-input-style {
+    @apply mt-1 block w-full text-sm 
+           text-gray-700 dark:text-gray-300
+           file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 
+           file:text-sm file:font-semibold 
+           file:bg-indigo-50 dark:file:bg-slate-600 
+           file:text-indigo-700 dark:file:text-indigo-300 
+           hover:file:bg-indigo-100 dark:hover:file:bg-slate-500 
+           cursor-pointer;
+  }
+
+  /* Primary button style with dark mode variants */
+  .btn-primary {
+    @apply bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 
+           rounded-lg shadow-md hover:shadow-lg transition-all duration-300 ease-in-out 
+           focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 
+           disabled:opacity-60 disabled:cursor-not-allowed
+           dark:bg-indigo-500 dark:hover:bg-indigo-600 dark:focus:ring-offset-slate-900 dark:focus:ring-indigo-400;
+  }
+
+  /* Secondary button style with dark mode variants */
+  .btn-secondary {
+    @apply bg-transparent border-2 border-slate-800 text-slate-800 font-semibold py-2 px-4 
+           rounded-lg shadow-sm hover:shadow-md transition-all duration-300 ease-in-out
+           hover:bg-slate-800 hover:text-white
+           focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500
+           disabled:opacity-60 disabled:cursor-not-allowed
+           dark:border-gray-400 dark:text-gray-200 dark:hover:bg-gray-200 dark:hover:text-slate-800
+           dark:focus:ring-offset-slate-900 dark:focus:ring-gray-400;
+  }
+
+  /* Custom scrollbar styles with dark mode variants */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px; 
+    height: 8px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    @apply bg-gray-100 dark:bg-slate-700;
+    border-radius: 10px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-gray-400 dark:bg-slate-500;
+    border-radius: 10px;
+    border: 2px solid transparent; 
+    background-clip: content-box;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-500 dark:bg-slate-400;
+  }
+  /* For Firefox scrollbar (basic color, full customization is harder) */
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: #a0aec0 #f7fafc; /* thumb track for light (gray-400, gray-100 in Tailwind) */
+  }
+  html.dark .custom-scrollbar {
+    scrollbar-color: #718096 #1e293b; /* thumb track for dark (slate-500, slate-800 in Tailwind) */
+  }
+}
+
+@layer utilities {
+  .bg-hero-gradient {
+    background-image: radial-gradient(at 27% 37%, hsla(215, 98%, 61%, 1) 0px, transparent 50%), 
+                      radial-gradient(at 97% 21%, hsla(125, 98%, 72%, 1) 0px, transparent 50%),
+                      radial-gradient(at 52% 99%, hsla(355, 98%, 71%, 1) 0px, transparent 50%),
+                      radial-gradient(at 10% 29%, hsla(256, 96%, 67%, 1) 0px, transparent 50%),
+                      radial-gradient(at 97% 96%, hsla(38, 60%, 74%, 1) 0px, transparent 50%),
+                      radial-gradient(at 33% 50%, hsla(222, 67%, 73%, 1) 0px, transparent 50%),
+                      radial-gradient(at 79% 53%, hsla(343, 68%, 79%, 1) 0px, transparent 50%);
+  }
+}

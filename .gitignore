@@ -1,0 +1,41 @@
+# ========================
+# Node.js Dependencies
+# ========================
+node_modules/
+frontend/node_modules/
+backend/node_modules
+
+# ========================
+# Environment Variables
+# ========================
+.env
+# frontend/.env
+backend/.env
+
+# ========================
+# Cache Files & Logs
+# ========================
+.cache/
+frontend/.cache/
+backend/.cache/
+*.log
+npm-debug.log*
+
+# ========================
+# Build/Dist Output (Optional)
+# ========================
+dist/
+build/
+frontend/dist/
+frontend/build/
+backend/dist/
+backend/build/
+
+# ========================
+# OS and Editor Files
+# ========================
+.DS_Store
+*.swp
+*.swo
+.idea/
+.vscode/
