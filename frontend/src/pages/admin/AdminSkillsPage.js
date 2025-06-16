@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import * as skillService from 'services/skillService';
+import * as skillService from '../../services/skillService';
 import { Plus, Trash2, X } from 'lucide-react';
-import ConfirmationModal from 'components/common/ConfirmationModal';
+import ConfirmationModal from '../../components/common/ConfirmationModal';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // --- Reusable Form Modal for Adding Categories or Skills ---
