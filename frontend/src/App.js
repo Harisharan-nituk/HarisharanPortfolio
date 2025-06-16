@@ -20,10 +20,10 @@ import AdminSkillsPage from './pages/admin/AdminSkillsPage';
 import ProtectedRoute from './components/routing/ProtectedRoute';
 import Navbar from './components/common/Navbar';
 import Footer from './components/common/Footer';
-import AdminProjectsPage from 'pages/admin/AdminProjectsPage';
-import AdminEducationPage from 'pages/admin/AdminEducationPage';
-import AdminCertificate from 'pages/admin/AdminCertificate';
-import AdminResumesPage from 'pages/admin/AdminResumesPage';
+import AdminProjectsPage from './pages/admin/AdminProjectsPage';
+import AdminEducationPage from './pages/admin/AdminEducationPage';
+import AdminCertificate from './pages/admin/AdminCertificate';
+import AdminResumesPage from './pages/admin/AdminResumesPage';
 
 // Use the existing ProjectsPage and ResumePage for admin for now
 // You can create dedicated admin pages for these later if you wish.
