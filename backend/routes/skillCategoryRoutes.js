@@ -1,3 +1,4 @@
+// backend/routes/skillCategoryRoutes.js
 import express from 'express';
 import {
   addSkillCategory, getSkillCategories, getSkillCategoryById,

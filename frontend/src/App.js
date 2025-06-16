@@ -20,6 +20,10 @@ import AdminSkillsPage from './pages/admin/AdminSkillsPage';
 import ProtectedRoute from './components/routing/ProtectedRoute';
 import Navbar from './components/common/Navbar';
 import Footer from './components/common/Footer';
+import AdminProjectsPage from 'pages/admin/AdminProjectsPage';
+import AdminEducationPage from 'pages/admin/AdminEducationPage';
+import AdminCertificate from 'pages/admin/AdminCertificate';
+import AdminResumesPage from 'pages/admin/AdminResumesPage';
 
 // Use the existing ProjectsPage and ResumePage for admin for now
 // You can create dedicated admin pages for these later if you wish.
@@ -47,9 +51,11 @@ function App() {
               <Route index element={<AdminDashboardPage />} /> {/* Default page for /admin */}
               <Route path="about" element={<AboutPage />} />
               <Route path="skills" element={<AdminSkillsPage />} />
-              <Route path="projects" element={<ProjectsPage />} /> {/* Admin view of projects */}
-              <Route path="resumes" element={<ResumePage />} /> {/* Admin view of resumes */}
+              <Route path="projects" element={<AdminProjectsPage />} /> {/* Admin view of projects */}
+              <Route path="resumes" element={<AdminResumesPage />} /> {/* Admin view of resumes */}
               <Route path="social-links" element={<AdminSocialLinksPage />} />
+              <Route path="edu" element={<AdminEducationPage />} />
+              <Route path="certificate" element={<AdminCertificate/>}/>
             </Route>
           </Route>
 

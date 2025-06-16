@@ -1,13 +1,12 @@
-// frontend/src/components/common/LoadingSpinner.js
 import React from 'react';
 
-const LoadingSpinner = ({ size = '8', color = 'indigo-600' }) => {
-  // Tailwind CSS classes used for styling
-  // Ensure your Tailwind setup is complete.
+const LoadingSpinner = () => {
+  // By using the full class names directly, we ensure Tailwind CSS includes them in the final stylesheet.
+  // The props have been removed as the spinner has a consistent style throughout the app.
   return (
     <div className="flex justify-center items-center my-10">
       <div
-        className={`animate-spin rounded-full h-${size} w-${size} border-t-2 border-b-2 border-${color}`}
+        className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-indigo-600"
         role="status"
         aria-live="polite"
         aria-label="Loading"

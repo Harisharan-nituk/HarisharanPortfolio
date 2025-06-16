@@ -1,7 +1,11 @@
-// Harisharan_portfolio/frontend/src/components/admin/AdminLayout.js
+// portfolio_py/frontend/src/components/admin/AdminLayout.js
 import React from "react";
-import { NavLink, Outlet } from "react-router-dom"; // Make sure Outlet is imported
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
+import AdminDashboardPage from "../../pages/admin/AdminDashboardPage";
+import AboutPage from "../../pages/admin/AboutPage/AboutPage";
+import ResumePage from "../../pages/ResumePage";
+import AdminSkillsPage from "../../pages/admin/AdminSkillsPage";
 import {
   LayoutDashboard,
   FileText,
@@ -12,15 +16,21 @@ import {
   Info,
   Link as LucideLinkIcon,
 } from "lucide-react";
+import Dashboard from "./Dashboard";
 
 const AdminLayout = () => {
   const { currentUser, logout } = useAuth();
+  const location = useLocation();
 
   const navLinkClasses = ({ isActive }) =>
     `flex items-center px-4 py-2.5 rounded-md text-sm font-medium transition-colors duration-150 ease-in-out ${
       isActive
          ? 'bg-indigo-600 text-white shadow-md'
         : 'text-gray-300 hover:bg-indigo-500/20 hover:text-white' }`;
+
+  // Check if current path is under /admin/
+  // Since this layout only renders for /admin/*, we can assume Outlet is always needed.
+  // The original check was a bit redundant. We will render Outlet directly.
 
   return (
     <div className="flex h-screen bg-gray-100 dark:bg-slate-900">
@@ -35,8 +45,7 @@ const AdminLayout = () => {
         </div>
 
         <nav className="flex-grow mt-4 space-y-1">
-          {/* The "end" prop on the Dashboard NavLink is important to prevent it from being active for all child routes */}
-          <NavLink to="/admin" end className={navLinkClasses}>
+          <NavLink to="/admin" className={navLinkClasses}>
             <LayoutDashboard className="mr-3 h-5 w-5" />
             Dashboard
           </NavLink>
@@ -59,6 +68,14 @@ const AdminLayout = () => {
           <NavLink to="/admin/skills" className={navLinkClasses}>
             <Cpu className="mr-3 h-5 w-5" />
             Manage Skills
+          </NavLink>
+            <NavLink to="/admin/edu" className={navLinkClasses}>
+            <Cpu className="mr-3 h-5 w-5" />
+             Manage Education 
+          </NavLink>
+          <NavLink to="/admin/certificate" className={navLinkClasses}>
+            <Cpu className="mr-3 h-5 w-5" />
+             Manage Certificates
           </NavLink>
         </nav>
 
@@ -85,8 +102,7 @@ const AdminLayout = () => {
       </aside>
 
       <main className="flex-1 overflow-y-auto p-6 md:p-8">
-        {/* The Outlet will render the component for the matched child route */}
-        <Outlet />
+       <Outlet/>
       </main>
     </div>
   );
