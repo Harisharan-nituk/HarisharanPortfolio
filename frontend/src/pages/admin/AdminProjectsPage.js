@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import api from 'services/api';
-import { useAuth } from 'contexts/AuthContext';
-import ProjectCard from 'components/projects/ProjectCard';
-import ConfirmationModal from 'components/common/ConfirmationModal';
+import api from '../../services/api'
+import { useAuth } from '../../contexts/AuthContext';
+import ProjectCard from '../../components/projects/ProjectCard';
+import ConfirmationModal from '../../components/common/ConfirmationModal'
 import { PlusCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
