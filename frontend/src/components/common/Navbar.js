@@ -66,6 +66,7 @@ const Navbar = () => {
                     <NavLink to="/login" className="px-3 py-1.5 rounded-md text-sm font-medium bg-sky-600 text-white hover:bg-sky-700">Login</NavLink>
                 )}
             </div>
+            
           </div>
           {/* ... (mobile menu and other elements) */}
         </div>

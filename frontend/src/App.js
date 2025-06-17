@@ -4,6 +4,7 @@ import React from 'react';
 import { Route, Routes, Outlet } from 'react-router-dom';
 
 // Page and Component Imports
+import RegisterPage from './pages/RegisterPage';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/admin/AboutPage/AboutPage'; 
 import ProjectsPage from './pages/ProjectsPage';
@@ -37,6 +38,7 @@ function App() {
           {/* --- Public Routes --- */}
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/setup-admin-user" element={<RegisterPage />} /> 
           <Route path="/about" element={<AboutPage />} />
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/resume" element={<ResumePage />} />

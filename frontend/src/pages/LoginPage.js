@@ -1,4 +1,3 @@
-// frontend/src/pages/LoginPage.js
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
@@ -18,10 +17,7 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (messageFromRedirect) {
-      // Use setDisplayMessage to show the redirect message
-      // Differentiate it from login errors if needed by styling or separate state
       setDisplayMessage(messageFromRedirect);
-      // Clear the location state so message doesn't reappear on refresh
       navigate(location.pathname, { replace: true, state: {} });
     }
   }, [messageFromRedirect, navigate, location.pathname]);
@@ -29,8 +25,8 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    setError(''); // Clear previous login errors
-    setDisplayMessage(''); // Clear previous redirect messages
+    setError(''); 
+    setDisplayMessage('');
 
     if (!email || !password) {
       setError('Please enter both email and password.');
@@ -40,10 +36,8 @@ const LoginPage = () => {
 
     try {
       const userData = await login(email, password);
-      console.log('Login successful via LoginPage, userData from context:', userData);
       
       if (userData && userData.isAdmin) {
-        // Navigate to where user intended to go if 'from' exists and was an admin action, else dashboard
         const fromLocation = location.state?.from?.pathname || '/admin';
         navigate(fromLocation, { replace: true });
       } else if (userData) {
@@ -53,7 +47,6 @@ const LoginPage = () => {
       }
 
     } catch (err) {
-      console.error('LoginPage handleSubmit caught an error:', err.response?.data?.message || err.message);
       setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
     } finally {
       setIsLoading(false);
@@ -61,33 +54,23 @@ const LoginPage = () => {
   };
 
   return (
-    // Main page container for login - ADDED DARK MODE STYLES
     <div className="flex items-center justify-center min-h-[calc(100vh-12rem)] py-12 px-4 sm:px-6 lg:px-8 
-                   bg-gray-50 dark:bg-slate-800 transition-colors duration-300"> 
-                   {/* Adjusted min-height to be less than full viewport if navbar/footer are present */}
+                   bg-gray-50 dark:bg-slate-800 transition-colors duration-300">
       <div className="max-w-md w-full space-y-8 
-                     bg-white dark:bg-slate-700  // <-- ADDED DARK MODE FOR FORM CARD
+                     bg-white dark:bg-slate-700
                      p-8 sm:p-10 rounded-xl shadow-2xl transition-colors duration-300">
         <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-gray-100"> {/* Dark mode text for title */}
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-gray-100">
             Admin Login
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-400"> {/* Dark mode text */}
-            Or{' '}
-            <Link to="/" className="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">
-              go back to homepage
-            </Link>
-          </p>
         </div>
 
-        {/* Display message from redirect (e.g., "Admin login required...") */}
         {displayMessage && !error && ( 
             <div className="p-3 bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300 rounded-md text-sm text-center">
               {displayMessage}
             </div>
           )}
         
-        {/* Display login errors */}
         {error && ( 
             <div className="p-3 bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300 rounded-md text-sm">
               {error}
@@ -103,7 +86,7 @@ const LoginPage = () => {
                 value={email} onChange={(e) => setEmail(e.target.value)} 
                 className="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md 
                            focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm
-                           dark:bg-slate-800 dark:border-slate-600 dark:placeholder-gray-400 dark:text-gray-50 dark:focus:ring-indigo-600 dark:focus:border-indigo-600" // Dark mode for input
+                           dark:bg-slate-800 dark:border-slate-600 dark:placeholder-gray-400 dark:text-gray-50 dark:focus:ring-indigo-600 dark:focus:border-indigo-600"
                 placeholder="Email address"
               />
             </div>
@@ -114,14 +97,18 @@ const LoginPage = () => {
                 value={password} onChange={(e) => setPassword(e.target.value)}
                 className="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md 
                            focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm
-                           dark:bg-slate-800 dark:border-slate-600 dark:placeholder-gray-400 dark:text-gray-50 dark:focus:ring-indigo-600 dark:focus:border-indigo-600" // Dark mode for input
+                           dark:bg-slate-800 dark:border-slate-600 dark:placeholder-gray-400 dark:text-gray-50 dark:focus:ring-indigo-600 dark:focus:border-indigo-600"
                 placeholder="Password"
               />
             </div>
           </div>
 
-  {/* --- NEW LINK ADDED HERE --- */}
-          <div className="flex items-center justify-end">
+          <div className="flex items-center justify-between">
+            <div className="text-sm">
+              <Link to="/setup-admin-user" className="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">
+                Create an account
+              </Link>
+            </div>
             <div className="text-sm">
               <Link to="/forgotpassword" className="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">
                 Forgot your password?
@@ -129,10 +116,7 @@ const LoginPage = () => {
             </div>
           </div>
 
-
-
           <div>
-          
             <button 
               type="submit" 
               disabled={isLoading}
