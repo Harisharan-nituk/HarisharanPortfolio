@@ -75,7 +75,7 @@ const AdminSkillsPage = () => {
     setIsLoading(true);
     try {
       const data = await skillService.getSkillCategories();
-      setSkillCategories(data || []);
+      setSkillCategories(Array.isArray(data) ? data : []);
     } catch (error) {
       displayMessage('Error: Could not fetch skills.', 'error');
     } finally {

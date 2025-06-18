@@ -17,7 +17,9 @@ const AdminCertificate = () => {
     setIsLoading(true);
     try {
       const data = await certificateService.getCertificates();
-      setCertificates(data || []);
+            
+
+      setCertificates(Array.isArray(data) ? data : []);
     } catch (err) {
       setError('Failed to fetch certificates.');
       console.error(err);

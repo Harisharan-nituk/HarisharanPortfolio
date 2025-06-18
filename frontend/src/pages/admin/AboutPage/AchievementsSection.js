@@ -18,7 +18,7 @@ const AchievementsSection = () => {
     setIsLoading(true);
     try {
       const data = await achievementService.getAchievements();
-      setAchievements(data || []);
+      setAchievements(Array.isArray(data) ? data : []);
     } catch (err) {
       setError('Failed to fetch achievements.');
       console.error(err);

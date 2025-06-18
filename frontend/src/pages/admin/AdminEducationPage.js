@@ -24,7 +24,8 @@ const AdminEducationPage = () => {
     setError(null);
     try {
       const { data } = await api.get('/education');
-      setEducationHistory(data || []);
+            setEducationHistory(Array.isArray(data) ? data : []);
+  // setEducationHistory(data || []);
     } catch (err) {
       console.error("Error fetching education history:", err);
       setError(err.response?.data?.message || "Failed to load education history.");
