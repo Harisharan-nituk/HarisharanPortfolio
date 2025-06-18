@@ -87,7 +87,9 @@ const AdminResumesPage = () => {
     setIsLoading(true);
     try {
       const { data } = await api.get('/resumes');
-      setResumes(data);
+        setResumes(Array.isArray(data) ? data : []); // Use this line to fetch data if empty array 
+
+      // setResumes(data);
     } catch (err) {
       alert("Failed to load resumes.");
     } finally {

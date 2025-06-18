@@ -85,7 +85,9 @@ const AdminProjectsPage = () => {
     setIsLoading(true);
     try {
       const { data } = await api.get('/projects');
-      setProjects(data);
+        setProjects(Array.isArray(data) ? data : []); // Use this line
+
+      // setProjects(data);here you have made changes
     } catch (err) {
       setError("Failed to load projects. Please check the console for errors.");
     } finally {

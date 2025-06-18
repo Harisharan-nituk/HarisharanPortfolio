@@ -2,10 +2,7 @@
 import React from "react";
 import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
-import AdminDashboardPage from "../../pages/admin/AdminDashboardPage";
-import AboutPage from "../../pages/admin/AboutPage/AboutPage";
-import ResumePage from "../../pages/ResumePage";
-import AdminSkillsPage from "../../pages/admin/AdminSkillsPage";
+
 import {
   LayoutDashboard,
   FileText,

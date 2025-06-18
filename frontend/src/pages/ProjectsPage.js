@@ -17,7 +17,9 @@ const ProjectsPage = () => {
       setIsLoading(true);
       try {
         const { data } = await api.get('/projects');
-        setProjects(data);
+          setProjects(Array.isArray(data) ? data : []); // Use this line
+
+        // setProjects(data);
       } catch (err) {
         setError("Failed to load projects.");
       } finally {

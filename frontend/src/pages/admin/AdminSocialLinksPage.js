@@ -75,7 +75,9 @@ const AdminSocialLinksPage = () => {
         setIsLoading(true);
         try {
             const data = await socialLinkService.getAdminSocialLinks();
-            setLinks(data);
+              setLinks(Array.isArray(data) ? data : []); // Use this line to save count of social links 
+
+            // setLinks(data);
         } catch (error) {
             console.error(error);
         } finally {
