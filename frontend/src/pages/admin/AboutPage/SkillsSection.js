@@ -16,7 +16,7 @@ const SkillsSection = () => {
       setIsLoading(true);
       try {
         const data = await skillService.getSkillCategories();
-        setSkillCategories(data || []);
+        setSkillCategories(dArray.isArray(data) ? data : []);
       } catch (err) {
         setError('Failed to fetch skills.');
         console.error(err);
