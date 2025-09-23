@@ -13,7 +13,7 @@
     "api",
     "mern"
   ],
-  "author": "Your Name",
+  "author": "",
   "license": "ISC",
   "description": "Backend for MERN portfolio website",
   "dependencies": {
