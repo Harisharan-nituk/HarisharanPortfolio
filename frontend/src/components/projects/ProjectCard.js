@@ -78,33 +78,37 @@ const ProjectCard = ({ project, onUpdate, onDelete, isAdminView }) => {
   const imageUrl = project.imageUrl ? project.imageUrl : placeholderImage;
 
   return (
-    <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden flex flex-col group transition-all duration-300 hover:shadow-2xl">
+    <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg overflow-hidden flex flex-col group transition-all duration-300 hover:shadow-2xl hover:scale-[1.02] border border-gray-100 dark:border-slate-700">
       {/* The Image is now a conditional link to the live demo */}
-      <a href={project.projectLink || `/project/${project._id}`} target="_blank" rel="noopener noreferrer">
+      <a href={project.projectLink || `/project/${project._id}`} target="_blank" rel="noopener noreferrer" className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
         <img 
           src={imageUrl} 
           alt={project.title || 'Project image'} 
-          className="w-full h-56 object-cover group-hover:opacity-80 transition-opacity duration-300 cursor-pointer"
+          className="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-500 cursor-pointer"
           onError={(e) => { e.target.onerror = null; e.target.src = placeholderImage; }}
         />
       </a>
       
       <div className="p-6 flex flex-col flex-grow">
-        <h3 className="text-2xl font-semibold text-gray-800 dark:text-white mb-2">
+        <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-3 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors">
           {project.title || 'Untitled Project'}
         </h3>
         
-        <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 flex-grow">
+        <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 flex-grow leading-relaxed">
           {project.description}
         </p>
 
         {project.technologies && project.technologies.length > 0 && (
           <div className="mb-4">
-            <h4 className="text-xs text-gray-500 dark:text-gray-400 uppercase font-semibold mb-1.5">Technologies:</h4>
+            <h4 className="text-xs text-gray-500 dark:text-gray-400 uppercase font-semibold mb-2">Technologies:</h4>
             <div className="flex flex-wrap gap-2">
               {/* CORRECTED LINE: Using index to create a unique key */}
               {project.technologies.map((tech, index) => (
-                <span key={`${tech}-${index}`} className="bg-gray-200 dark:bg-slate-700 text-gray-700 dark:text-gray-200 px-2.5 py-1 rounded-full text-xs font-medium">
+                <span 
+                  key={`${tech}-${index}`} 
+                  className="bg-gradient-to-r from-sky-100 to-blue-100 dark:from-slate-700 dark:to-slate-600 text-sky-700 dark:text-sky-300 px-3 py-1.5 rounded-full text-xs font-semibold border border-sky-200 dark:border-slate-600"
+                >
                   {tech}
                 </span>
               ))}
@@ -114,12 +118,22 @@ const ProjectCard = ({ project, onUpdate, onDelete, isAdminView }) => {
 
         <div className="mt-auto pt-4 flex flex-wrap gap-3 items-center justify-start border-t border-gray-200 dark:border-slate-700">
           {project.projectLink && (
-            <a href={project.projectLink} target="_blank" rel="noopener noreferrer" className="btn-primary text-sm py-2 px-4">
+            <a 
+              href={project.projectLink} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="btn-primary text-sm py-2.5 px-5 bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 shadow-md hover:shadow-lg transition-all duration-200"
+            >
               Live Demo
             </a>
           )}
           {project.githubUrl && (
-            <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="btn-secondary text-sm py-2 px-4">
+            <a 
+              href={project.githubUrl} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="btn-secondary text-sm py-2.5 px-5 border-2 border-slate-800 dark:border-gray-300 hover:bg-slate-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-slate-800 transition-all duration-200"
+            >
               View Code
             </a>
           )}

@@ -125,25 +125,108 @@ const HomePage = () => {
           </>
       )}
 
-      <div className="relative overflow-hidden bg-white dark:bg-slate-900">
-        <div className="absolute inset-0 bg-hero-gradient opacity-20 dark:opacity-30 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"></div>
+      <div className="relative overflow-hidden bg-gradient-to-br from-white via-sky-50/30 to-blue-50/50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+        {/* Animated gradient background */}
+        <div className="absolute inset-0 bg-hero-gradient opacity-25 dark:opacity-20 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(56,189,248,0.1),transparent_50%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(59,130,246,0.1),transparent_50%)]"></div>
+        
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid md:grid-cols-2 gap-12 items-center min-h-[calc(100vh-8rem)] py-12">
-            <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7, ease: "easeOut" }} className="text-center md:text-left relative">
+          <div className="grid md:grid-cols-2 gap-12 items-center min-h-[calc(100vh-8rem)] py-16 md:py-20">
+            <motion.div 
+              initial={{ opacity: 0, x: -50 }} 
+              animate={{ opacity: 1, x: 0 }} 
+              transition={{ duration: 0.7, ease: "easeOut" }} 
+              className="text-center md:text-left relative"
+            >
               {isAdmin && (
-                <button onClick={() => setShowEditTextModal(true)} className="absolute top-0 right-0 md:right-auto md:left-0 -mt-4 md:mt-0 md:-ml-12 p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors" title="Edit Content"><Edit size={18} /></button>
+                <button 
+                  onClick={() => setShowEditTextModal(true)} 
+                  className="absolute top-0 right-0 md:right-auto md:left-0 -mt-4 md:mt-0 md:-ml-12 p-2 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm hover:bg-white dark:hover:bg-slate-700 shadow-md transition-all duration-200" 
+                  title="Edit Content"
+                >
+                  <Edit size={18} />
+                </button>
               )}
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-800 dark:text-white leading-tight">Hello, I'm <span className="text-sky-500">{ownerName}</span>.</h1>
-              <p className="mt-4 text-lg md:text-xl text-slate-600 dark:text-slate-300 max-w-xl mx-auto md:mx-0">A passionate {jobTitle} specializing in {specialization}.</p>
-              <p className="mt-6 text-slate-500 dark:text-slate-400 max-w-xl mx-auto md:mx-0">{homePageIntroParagraph}</p>
-              <div className="mt-10 flex flex-col sm:flex-row justify-center md:justify-start gap-4"><Link to="/projects" className="group btn-primary bg-sky-500 hover:bg-sky-600 shadow-lg shadow-sky-500/20 text-lg px-8 py-3 flex items-center justify-center">View My Work <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" /></Link><Link to="/contact" className="btn-secondary text-lg px-8 py-3 flex items-center justify-center">Get In Touch</Link></div>
+              <motion.h1 
+                className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-slate-800 dark:text-white leading-tight mb-6"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+              >
+                Hello, I'm{' '}
+                <span className="bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-600 bg-clip-text text-transparent animate-gradient">
+                  {ownerName}
+                </span>
+                .
+              </motion.h1>
+              <motion.p 
+                className="mt-4 text-xl md:text-2xl text-slate-700 dark:text-slate-200 max-w-xl mx-auto md:mx-0 font-medium"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+              >
+                A passionate <span className="text-sky-600 dark:text-sky-400 font-semibold">{jobTitle}</span> specializing in{' '}
+                <span className="text-blue-600 dark:text-blue-400 font-semibold">{specialization}</span>.
+              </motion.p>
+              <motion.p 
+                className="mt-6 text-lg text-slate-600 dark:text-slate-300 max-w-xl mx-auto md:mx-0 leading-relaxed"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+              >
+                {homePageIntroParagraph}
+              </motion.p>
+              <motion.div 
+                className="mt-10 flex flex-col sm:flex-row justify-center md:justify-start gap-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+              >
+                <Link 
+                  to="/projects" 
+                  className="group btn-primary bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 shadow-xl shadow-sky-500/30 text-lg px-8 py-4 flex items-center justify-center rounded-xl font-semibold transition-all duration-300 hover:scale-105"
+                >
+                  View My Work{' '}
+                  <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                </Link>
+                <Link 
+                  to="/contact" 
+                  className="btn-secondary text-lg px-8 py-4 flex items-center justify-center rounded-xl font-semibold border-2 border-slate-800 dark:border-gray-300 hover:bg-slate-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-slate-800 transition-all duration-300 hover:scale-105"
+                >
+                  Get In Touch
+                </Link>
+              </motion.div>
             </motion.div>
-            <motion.div initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }} className="relative w-72 h-72 sm:w-80 sm:h-80 lg:w-96 lg:h-96 justify-self-center order-first md:order-last">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.5 }} 
+              animate={{ opacity: 1, scale: 1 }} 
+              transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }} 
+              className="relative w-72 h-72 sm:w-80 sm:h-80 lg:w-96 lg:h-96 justify-self-center order-first md:order-last"
+            >
               {isAdmin && (
-                <button onClick={() => setShowEditPhotoModal(true)} className="absolute bottom-2 right-2 z-20 p-2 bg-white/70 backdrop-blur-sm rounded-full shadow-md hover:bg-white transition-colors" title="Change Photo"><Edit size={18} /></button>
+                <button 
+                  onClick={() => setShowEditPhotoModal(true)} 
+                  className="absolute bottom-4 right-4 z-20 p-3 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-full shadow-lg hover:bg-white dark:hover:bg-slate-700 transition-all duration-200 hover:scale-110" 
+                  title="Change Photo"
+                >
+                  <Edit size={18} />
+                </button>
               )}
-              <div className="absolute inset-0 bg-gradient-to-br from-sky-300 to-blue-500 rounded-full blur-2xl opacity-50 dark:opacity-40"></div>
-              <img src={profilePhotoToDisplay} alt={ownerName} className="relative w-full h-full object-cover rounded-full shadow-2xl border-4 border-white dark:border-slate-800" />
+              {/* Enhanced gradient glow effect */}
+              <div className="absolute inset-0 bg-gradient-to-br from-sky-400 via-blue-500 to-indigo-600 rounded-full blur-3xl opacity-60 dark:opacity-50 animate-pulse"></div>
+              <div className="absolute inset-0 bg-gradient-to-tr from-blue-400 to-sky-500 rounded-full blur-2xl opacity-40 dark:opacity-30"></div>
+              {/* Profile image with enhanced styling */}
+              <div className="relative w-full h-full">
+                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-sky-400 to-blue-600 p-1 animate-spin-slow" style={{ animation: 'spin 20s linear infinite' }}>
+                  <div className="w-full h-full rounded-full bg-white dark:bg-slate-900"></div>
+                </div>
+                <img 
+                  src={profilePhotoToDisplay} 
+                  alt={ownerName} 
+                  className="relative w-full h-full object-cover rounded-full shadow-2xl border-4 border-white dark:border-slate-800 z-10" 
+                />
+              </div>
             </motion.div>
           </div>
         </div>
