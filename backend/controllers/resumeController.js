@@ -3,7 +3,7 @@ import asyncHandler from 'express-async-handler';
 import multer from 'multer';
 import { v4 as uuidv4 } from 'uuid';
 import Resume from '../models/Resume.js';
-import { supabase } from '../config/supabaseConfig.js';
+import { supabase, isSupabaseConfigured } from '../config/supabaseConfig.js';
 
 // --- No changes needed here, this part is correct ---
 const resumeStorage = multer.memoryStorage();
@@ -32,6 +32,12 @@ const addResume = asyncHandler(async (req, res) => {
   if (!field) {
     res.status(400);
     throw new Error('The "field" for the resume is required.');
+  }
+
+  // Check if Supabase is configured
+  if (!isSupabaseConfigured() || !supabase) {
+    res.status(503);
+    throw new Error('File upload service is not configured. Please set SUPABASE_URL, SUPABASE_SERVICE_KEY, and SUPABASE_BUCKET_NAME environment variables.');
   }
 
   const uniqueFilename = `${uuidv4()}-${req.file.originalname}`;
@@ -77,7 +83,7 @@ const deleteResume = asyncHandler(async (req, res) => {
   const resume = await Resume.findById(req.params.id);
   if (resume) {
     // If a stored filename exists, attempt to delete from Supabase
-    if (resume.storedFilename) {
+    if (resume.storedFilename && isSupabaseConfigured() && supabase) {
       const { error: deleteError } = await supabase.storage.from(BUCKET_NAME).remove([resume.storedFilename]);
       if (deleteError) {
         // Log the error but proceed to delete from DB anyway
@@ -104,6 +110,12 @@ const updateResume = asyncHandler(async (req, res) => {
 
   // If a new file is being uploaded
   if (req.file) {
+    // Check if Supabase is configured
+    if (!isSupabaseConfigured() || !supabase) {
+      res.status(503);
+      throw new Error('File upload service is not configured. Please set SUPABASE_URL, SUPABASE_SERVICE_KEY, and SUPABASE_BUCKET_NAME environment variables.');
+    }
+
     const oldStoredFilename = resume.storedFilename;
 
     // Upload new file first
