@@ -25,6 +25,8 @@ import AdminProjectsPage from './pages/admin/AdminProjectsPage';
 import AdminEducationPage from './pages/admin/AdminEducationPage';
 import AdminCertificate from './pages/admin/AdminCertificate';
 import AdminResumesPage from './pages/admin/AdminResumesPage';
+import AdminExperiencePage from './pages/admin/AdminExperiencePage';
+import ExperiencePage from './pages/ExperiencePage';
 
 // Use the existing ProjectsPage and ResumePage for admin for now
 // You can create dedicated admin pages for these later if you wish.
@@ -41,6 +43,7 @@ function App() {
           <Route path="/setup-admin-user" element={<RegisterPage />} /> 
           <Route path="/about" element={<AboutPage />} />
           <Route path="/projects" element={<ProjectsPage />} />
+          <Route path="/experience" element={<ExperiencePage />} />
           <Route path="/resume" element={<ResumePage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/forgotpassword" element={<ForgotPasswordPage />} />
@@ -58,6 +61,7 @@ function App() {
               <Route path="social-links" element={<AdminSocialLinksPage />} />
               <Route path="edu" element={<AdminEducationPage />} />
               <Route path="certificate" element={<AdminCertificate/>}/>
+              <Route path="experience" element={<AdminExperiencePage />} />
             </Route>
           </Route>
 

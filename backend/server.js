@@ -20,6 +20,7 @@ import certificateRoutes from './routes/certificateRoutes.js';
 import socialLinkRoutes from './routes/socialLinkRoutes.js';
 import dashboardRoutes from './routes/dashboardRoutes.js';
 import achievementRoutes from './routes/achievementRoutes.js';
+import experienceRoutes from './routes/experienceRoutes.js';
 
 // Import your custom error handling middleware
 import { notFound, errorHandler } from './middleware/errorHandler.js';
@@ -56,6 +57,7 @@ app.use('/api/certificates', certificateRoutes);
 app.use('/api/sociallinks', socialLinkRoutes);
 app.use('/api/admin', dashboardRoutes);
 app.use('/api/achievements', achievementRoutes);
+app.use('/api/experiences', experienceRoutes);
 
 
 // --- Production Catch-all Route ---

@@ -57,19 +57,52 @@ const authUser = asyncHandler(async (req, res) => {
     throw new Error('Please provide email and password');
   }
 
+  // Check if JWT_SECRET is configured
+  if (!process.env.JWT_SECRET) {
+    console.error('JWT_SECRET is not set in environment variables');
+    res.status(500);
+    throw new Error('Server configuration error: JWT_SECRET is missing');
+  }
+
   const user = await User.findOne({ email }).select('+password');
 
-  if (user && (await user.matchPassword(password))) {
+  if (!user) {
+    console.log(`Login attempt failed: User not found with email: ${email}`);
+    res.status(401);
+    throw new Error('Invalid email or password');
+  }
+
+  // Check if user has a password (should always be true, but safety check)
+  if (!user.password) {
+    console.error(`Login attempt failed: User ${email} has no password stored`);
+    res.status(401);
+    throw new Error('Invalid email or password');
+  }
+
+  // Compare passwords
+  const isPasswordMatch = await user.matchPassword(password);
+  
+  if (!isPasswordMatch) {
+    console.log(`Login attempt failed: Password mismatch for email: ${email}`);
+    res.status(401);
+    throw new Error('Invalid email or password');
+  }
+
+  // Generate token
+  try {
+    const token = generateToken(user._id);
+    
     res.json({
       _id: user._id,
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
-      token: generateToken(user._id),
+      token: token,
     });
-  } else {
-    res.status(401);
-    throw new Error('Invalid email or password');
+  } catch (tokenError) {
+    console.error('Token generation failed:', tokenError.message);
+    res.status(500);
+    throw new Error('Failed to generate authentication token');
   }
 });
 
@@ -96,16 +129,33 @@ const getUserProfile = asyncHandler(async (req, res) => {
 // @route   POST /api/auth/forgotpassword
 // @access  Public
 const forgotPassword = asyncHandler(async (req, res) => {
-  const user = await User.findOne({ email: req.body.email });
+  const { email } = req.body;
 
-  if (!user) {
-    return res.status(200).json({ message: 'If a user with that email exists, a reset link has been sent.' });
+  if (!email) {
+    res.status(400);
+    throw new Error('Please provide an email address');
   }
 
+  const user = await User.findOne({ email });
+
+  // Always return the same message for security (don't reveal if user exists)
+  const successMessage = 'If a user with that email exists, a reset link has been sent.';
+
+  if (!user) {
+    console.log(`Forgot password request for non-existent email: ${email}`);
+    return res.status(200).json({ message: successMessage });
+  }
+
+  // Generate reset token
   const resetToken = user.getResetPasswordToken();
   await user.save({ validateBeforeSave: false });
 
-  const resetUrl = `${process.env.FRONTEND_URL}/resetpassword/${resetToken}`;
+  // Build reset URL - use FRONTEND_URL from .env
+  const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+  const resetUrl = `${frontendUrl}/resetpassword/${resetToken}`;
+
+  console.log(`Password reset requested for user: ${user.email}`);
+  console.log(`Reset URL will be: ${resetUrl}`);
 
   const message = `
     <h1>Password Reset Request</h1>
@@ -121,13 +171,18 @@ const forgotPassword = asyncHandler(async (req, res) => {
       subject: 'Password Reset Token',
       message
     });
-    res.status(200).json({ message: 'If a user with that email exists, a reset link has been sent.' });
+    console.log(`Password reset email sent successfully to: ${user.email}`);
+    res.status(200).json({ message: successMessage });
   } catch (err) {
-    console.error(err);
+    console.error('Failed to send password reset email:', err.message);
+    // Clear the reset token if email failed
     user.passwordResetToken = undefined;
     user.passwordResetExpire = undefined;
     await user.save({ validateBeforeSave: false });
-    throw new Error('Email could not be sent');
+    
+    // Return error response
+    res.status(500);
+    throw new Error(`Email could not be sent: ${err.message}`);
   }
 });
 

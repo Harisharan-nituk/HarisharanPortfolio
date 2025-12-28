@@ -78,14 +78,28 @@ const Dashboard = () => {
           <div className="space-y-4">
             {summary?.recentMessages?.length > 0 ? (
               summary.recentMessages.map((msg) => (
-                <div key={msg._id} className="p-3 rounded-lg bg-gray-50 dark:bg-slate-700/50 flex justify-between items-center">
-                  <div>
-                    <p className="font-semibold text-gray-700 dark:text-gray-200">{msg.name}</p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">{msg.subject || 'No Subject'}</p>
+                <div key={msg._id} className="p-4 rounded-lg bg-gray-50 dark:bg-slate-700/50 border border-gray-200 dark:border-slate-600 hover:shadow-md transition-all">
+                  <div className="flex justify-between items-start mb-2">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <p className="font-semibold text-gray-800 dark:text-gray-100">{msg.name}</p>
+                        <span className="text-xs text-gray-500 dark:text-gray-400">({msg.email})</span>
+                      </div>
+                      {msg.subject && (
+                        <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                          Subject: <span className="text-indigo-600 dark:text-indigo-400">{msg.subject}</span>
+                        </p>
+                      )}
+                    </div>
+                    <span className="text-xs text-gray-400 dark:text-gray-500 whitespace-nowrap ml-4">
+                      {new Date(msg.createdAt).toLocaleDateString()}
+                    </span>
                   </div>
-                  <span className="text-xs text-gray-400 dark:text-gray-500">
-                    {new Date(msg.createdAt).toLocaleDateString()}
-                  </span>
+                  <div className="mt-3 pt-3 border-t border-gray-200 dark:border-slate-600">
+                    <p className="text-sm text-gray-600 dark:text-gray-300 whitespace-pre-wrap break-words">
+                      {msg.message}
+                    </p>
+                  </div>
                 </div>
               ))
             ) : (
