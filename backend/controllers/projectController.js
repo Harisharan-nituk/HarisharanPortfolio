@@ -3,7 +3,7 @@ import asyncHandler from 'express-async-handler';
 import multer from 'multer';
 import { v4 as uuidv4 } from 'uuid';
 import Project from '../models/Project.js';
-import { supabase, isSupabaseConfigured } from '../config/supabaseConfig.js';
+import { supabase } from '../config/supabaseConfig.js';
 
 // This middleware uses memory storage to handle the file before uploading to Supabase
 const projectImageStorage = multer.memoryStorage();
@@ -37,12 +37,6 @@ const addProject = asyncHandler(async (req, res) => {
   let storedImageFilename = '';
 
   if (req.file) {
-    // Check if Supabase is configured
-    if (!isSupabaseConfigured() || !supabase) {
-      res.status(503);
-      throw new Error('File upload service is not configured. Please set SUPABASE_URL, SUPABASE_SERVICE_KEY, and SUPABASE_BUCKET_NAME environment variables.');
-    }
-
     const uniqueFilename = `${uuidv4()}-${req.file.originalname}`;
     const filePathInBucket = `projects/${uniqueFilename}`;
 
@@ -117,12 +111,6 @@ const updateProject = asyncHandler(async (req, res) => {
   project.technologies = technologies ? technologies.split(',').map(tech => tech.trim()) : project.technologies;
 
   if (req.file) {
-    // Check if Supabase is configured
-    if (!isSupabaseConfigured() || !supabase) {
-      res.status(503);
-      throw new Error('File upload service is not configured. Please set SUPABASE_URL, SUPABASE_SERVICE_KEY, and SUPABASE_BUCKET_NAME environment variables.');
-    }
-
     const oldStoredFilename = project.storedImageFilename;
 
     const newUniqueFilename = `${uuidv4()}-${req.file.originalname}`;
@@ -161,7 +149,7 @@ const updateProject = asyncHandler(async (req, res) => {
 const deleteProject = asyncHandler(async (req, res) => {
   const project = await Project.findById(req.params.id);
   if (project) {
-    if (project.storedImageFilename && isSupabaseConfigured() && supabase) {
+    if (project.storedImageFilename) {
       const { error: deleteError } = await supabase.storage.from(BUCKET_NAME).remove([project.storedImageFilename]);
        if (deleteError) {
         console.error(`Could not delete file from Supabase: ${deleteError.message}`);

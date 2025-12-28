@@ -5,7 +5,6 @@ import cors from 'cors';
 import multer from 'multer';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import fs from 'fs';
 
 import connectDB from './config/db.js';
 
@@ -38,17 +37,9 @@ app.use(express.json());
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Only serve static files if the build directory exists (optional for separate frontend deployment)
 if (process.env.NODE_ENV === 'production') {
-  const buildPath = path.join(__dirname, '../frontend/build');
-  
-  // Check if build directory exists before serving static files
-  if (fs.existsSync(buildPath)) {
-    app.use(express.static(buildPath));
-    console.log('Serving static files from:', buildPath);
-  } else {
-    console.log('Frontend build directory not found. Assuming separate frontend deployment.');
-  }
+  // Serve the static files from the React app's 'build' folder
+  app.use(express.static(path.join(__dirname, '../frontend/build')));
 }
 // --- End of Production Logic ---
 
@@ -69,23 +60,10 @@ app.use('/api/achievements', achievementRoutes);
 
 // --- Production Catch-all Route ---
 // This serves your React app's main HTML file for any route not handled by the API
-// Only if the build directory exists (for monorepo deployments)
 if (process.env.NODE_ENV === 'production') {
-  const buildIndexPath = path.resolve(__dirname, '../frontend', 'build', 'index.html');
-  
-  if (fs.existsSync(buildIndexPath)) {
-    app.get('*', (req, res) => {
-      res.sendFile(buildIndexPath);
-    });
-    console.log('Catch-all route configured for frontend build');
-  } else {
-    // If frontend is deployed separately, just return API info for root route
-    app.get('/', (req, res) => {
-      res.json({ message: 'API is running. Frontend is deployed separately.' });
-    });
-    // For non-API routes that don't exist, the notFound middleware will handle them
-    console.log('Frontend build not found. API-only mode enabled.');
-  }
+  app.get('*', (req, res) =>
+    res.sendFile(path.resolve(__dirname, '../frontend', 'build', 'index.html'))
+  );
 } else {
   // A simple root route for testing the API in development
   app.get('/', (req, res) => {

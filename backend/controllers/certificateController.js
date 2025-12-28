@@ -3,7 +3,7 @@ import asyncHandler from 'express-async-handler';
 import multer from 'multer';
 import { v4 as uuidv4 } from 'uuid';
 import Certificate from '../models/Certificate.js';
-import { supabase, isSupabaseConfigured } from '../config/supabaseConfig.js';
+import { supabase } from '../config/supabaseConfig.js';
 
 // --- This middleware setup is correct ---
 const certificateStorage = multer.memoryStorage();
@@ -33,12 +33,6 @@ export const addCertificate = asyncHandler(async (req, res) => {
   if (!name || !issuingOrganization) {
     res.status(400);
     throw new Error('Certificate name and issuing organization are required.');
-  }
-
-  // Check if Supabase is configured
-  if (!isSupabaseConfigured() || !supabase) {
-    res.status(503);
-    throw new Error('File upload service is not configured. Please set SUPABASE_URL, SUPABASE_SERVICE_KEY, and SUPABASE_BUCKET_NAME environment variables.');
   }
 
   const uniqueFilename = `${uuidv4()}-${req.file.originalname}`;
@@ -95,12 +89,6 @@ export const updateCertificate = asyncHandler(async (req, res) => {
   certificate.dateIssued = dateIssued !== undefined ? dateIssued : certificate.dateIssued;
 
   if (req.file) {
-    // Check if Supabase is configured
-    if (!isSupabaseConfigured() || !supabase) {
-      res.status(503);
-      throw new Error('File upload service is not configured. Please set SUPABASE_URL, SUPABASE_SERVICE_KEY, and SUPABASE_BUCKET_NAME environment variables.');
-    }
-
     const oldStoredFilename = certificate.storedImageFilename;
 
     // Upload new file first
@@ -140,7 +128,7 @@ export const updateCertificate = asyncHandler(async (req, res) => {
 export const deleteCertificate = asyncHandler(async (req, res) => {
   const certificate = await Certificate.findById(req.params.id);
   if (certificate) {
-    if (certificate.storedImageFilename && isSupabaseConfigured() && supabase) {
+    if (certificate.storedImageFilename) {
       const { error: deleteError } = await supabase.storage.from(BUCKET_NAME).remove([certificate.storedImageFilename]);
        if (deleteError) {
         console.error(`Could not delete file from Supabase: ${deleteError.message}`);

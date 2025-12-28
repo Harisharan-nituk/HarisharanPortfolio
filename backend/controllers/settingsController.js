@@ -3,7 +3,7 @@ import asyncHandler from 'express-async-handler';
 import multer from 'multer';
 import { v4 as uuidv4 } from 'uuid';
 import GeneralSetting from '../models/GeneralSetting.js';
-import { supabase, isSupabaseConfigured } from '../config/supabaseConfig.js';
+import { supabase } from '../config/supabaseConfig.js';
 
 // --- This middleware setup is correct ---
 const profilePhotoStorage = multer.memoryStorage();
@@ -54,12 +54,6 @@ const uploadOrUpdateProfilePhoto = asyncHandler(async (req, res) => {
   if (!req.file) {
     res.status(400);
     throw new Error('No profile photo file uploaded.');
-  }
-
-  // Check if Supabase is configured
-  if (!isSupabaseConfigured() || !supabase) {
-    res.status(503);
-    throw new Error('File upload service is not configured. Please set SUPABASE_URL, SUPABASE_SERVICE_KEY, and SUPABASE_BUCKET_NAME environment variables.');
   }
 
   const settings = await GeneralSetting.getSingleton();
