@@ -3,7 +3,7 @@ import asyncHandler from 'express-async-handler';
 import multer from 'multer';
 import { v4 as uuidv4 } from 'uuid';
 import Certificate from '../models/Certificate.js';
-w import { supabase, isSupabaseConfigured } from '../config/supabaseConfig.js';
+import { supabase, isSupabaseConfigured } from '../config/supabaseConfig.js';
 
 // --- This middleware setup is correct ---
 const certificateStorage = multer.memoryStorage();
