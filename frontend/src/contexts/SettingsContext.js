@@ -10,9 +10,9 @@ export const useSettings = () => {
 
 export const SettingsProvider = ({ children }) => {
   const [siteSettings, setSiteSettings] = useState({
-    ownerName: 'Your Name', // Default value
-    jobTitle: 'Your Profession',
-    specialization: 'Your Specialization',
+    ownerName: 'Harisharan', // Default value
+    jobTitle: 'Software Developer',
+    specialization: 'Specializing in Full-Stack Development',
   });
   const [isLoading, setIsLoading] = useState(true);
 
